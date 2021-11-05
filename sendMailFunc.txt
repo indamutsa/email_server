@@ -1,0 +1,27 @@
+ 11     const transporter = nodemailer.createTransport({
+ 12         host: "smtp.mailtrap.io",
+ 13         port: 2525,
+ 14         auth: {
+ 15             user: "a4d97faebd0f42",
+ 16             pass: "0cd4380880256a"
+ 17         }
+ 18     });
+ 19 
+ 20 
+ 21     const mailOptions = {
+ 22         from: 'ceozentrum@gmail.com',
+ 23         to: 'jerekaarsene@gmail.com',
+ 24         subject: 'Sending Email using Node.js',
+ 25         text: 'That was easy!'
+ 26     };
+ 27 
+ 28     transporter.sendMail(mailOptions, function(error, info){
+ 29         if (error) {
+ 30             res.status(500).json("Error encountered: " + error.message)
+ 31    i     } else {
+ 32             res.status(200).json("Email sent successfully" + info.response);
+ 33         }
+ 34     });
+ 35 
+ 36 })
+
