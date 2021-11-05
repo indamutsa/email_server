@@ -25,3 +25,45 @@
  35 
  36 })
 
+ // GOOGLE OAuth2
+ const CLIENT_ID = process.env.CLIENT_ID;
+const SECRET_ID = process.env.SECRET_ID;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, SECRET_ID, REDIRECT_URI);
+
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+// Send email function
+async function sendMail() {
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: "jerekaarsene@gmail.com",
+        clientId: CLIENT_ID,
+        clientSecret: SECRET_ID,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: "Ceozentrum <services@ceozentrum.de>",
+      to: "jerekaarsene@gmail.com",
+      subject: "Hello from gmail using API",
+      text: "Hello from gmail email using API",
+      html: "<h1>Hello from gmail email using API</h1>",
+    };
+
+    const result = await transport.sendMail(mailOptions);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+

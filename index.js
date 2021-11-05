@@ -36,11 +36,11 @@ async function sendMail() {
 app.get("/sendmail", (req, res) => {
   sendMail()
     .then((result) => {
-      console.log("Email sent...", result);
+      // console.log("Email sent...", result);
       res.status(200).json("Email sent... " + result);
     })
     .catch((error) => {
-      console.log(error.message);
+      // console.log(error.message);
       res.status(500).json("Error occured, check the logs... " + error.message);
     });
 });
